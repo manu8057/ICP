@@ -1,0 +1,66 @@
+1. Merge Sorted Array (88)
+
+Solution for problem number 1-------------->
+-----------------------------------------------------------
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int p=n+m-1;
+        int p1=m-1;
+        int p2=n-1;
+        while(p1>=0 && p2>=0){
+            if(nums1[p1]>nums2[p2]){
+                nums1[p]=nums1[p1];
+                p1--;
+            }
+            else{
+                nums1[p]=nums2[p2];
+                p2--;
+            }
+            p--;
+        }
+        while(p2>=0){
+            nums1[p]=nums2[p2];
+            p2--;
+            p--;
+        }
+    }
+}
+
+
+
+2. Kth Largest Element in an Array (215)
+
+solution for problem number 2----------------->
+---------------------------------------------------------------
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer>pq=new PriorityQueue<>();
+        for(int i=0;i<nums.length;i++){
+            pq.add(nums[i]);
+            if(pq.size()>k){
+                pq.poll();
+            }
+        }
+        return pq.poll();
+    }
+}
+
+3. Valid Perfect Square (367)------------------->
+Solution for problem number 3________________>
+----------------------------------------------------------------
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        long i=1;
+        long j=num;
+        while(i<=j){
+            long mid=i+(j-i)/2;
+            long m=mid*mid;
+            if(m==num) return true;
+            else if(m>num) j=mid-1;
+            else i=mid+1;
+
+        }
+        return false;
+    }
+}
