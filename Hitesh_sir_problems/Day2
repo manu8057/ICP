@@ -1,0 +1,121 @@
+Question number 1------->
+
+Alternating Groups I(Leetcode 3206)-----------------------
+Solution-->
+---------------------------------------------------------------
+Approach number 1---by using Extra space 
+class Solution {
+    public int numberOfAlternatingGroups(int[] colors) {
+        int arr[]=new int[colors.length+2];
+        arr[0]=colors[colors.length-1];
+        arr[arr.length-1]=colors[0];
+        for(int i=0;i<colors.length;i++){
+            arr[i+1]=colors[i];
+        }
+        int c=0;
+        for(int i=1;i<arr.length-1;i++){
+            int f=arr[i];
+            if(f!=arr[i-1] && f!=arr[i+1]) c++;
+        }
+        return c;
+    }
+}
+Approach number 2---by using sliding Window
+----------------------
+class Solution {
+    public int numberOfAlternatingGroups(int[] colors) {
+        int arr[]=new int[colors.length+2];
+        arr[0]=colors[colors.length-1];
+        arr[arr.length-1]=colors[0];
+        for(int i=0;i<colors.length;i++){
+            arr[i+1]=colors[i];
+        }
+        int c=0;
+        int sum=0;
+        for(int i=0;i<3;i++){
+            sum+=arr[i];
+        }
+        if(sum==2 && arr[0]==arr[2]) c++;
+        else if(sum==1 && arr[0]==arr[2]) c++;
+        for(int i=3;i<arr.length;i++){
+            sum+=arr[i];
+            sum-=arr[i-3];
+            if(sum==2 && arr[i]==arr[i-2]) c++;
+           else if(sum==1 && arr[i]==arr[i-2]) c++;
+        }
+        return c;
+    }
+}
+
+
+
+Question number 2---------------------------->
+ Subarray Sum Equals K (Leetcode 560)    Sliding window but not working for negative numbers 
+ ---------------------------------------------
+  class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int sum=0;
+        int ans=0;
+        int j=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            while(j<=i && sum>=k){
+                if(sum==k){
+                    ans++;
+                }
+                sum-=nums[j++];
+            }
+        }
+        return ans;
+    }
+}
+
+
+Correct approach  perfix sum for Question number 2----------------->
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        HashMap<Integer,Integer>map=new HashMap<>();
+        int ans=0;
+        int sum=0;
+        map.put(0,1);
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            ans+=map.getOrDefault(sum-k,0);
+            map.put(sum,map.getOrDefault(sum,0)+1);
+        }
+        return ans;
+    }
+}
+
+
+Question number 3rd -------------------------->
+------------------------------------------------------------------------------------
+Count Complete Subarray------------------------------->
+--------------------------------------------------------------------------------------
+
+
+Question number 4
+
+Count Subarrays With Score Less Than K(Leetcode 2302)
+-----------------------------------------Solution for 4th Question--------------------------------->
+
+TLE aa rha tha meri approach me -------
+----------------------------------------------------------------------->
+class Solution {
+    public long countSubarrays(int[] nums, long k) {
+        long sum=0;
+        long ans=0;
+        int j=0;
+        int n=nums.length;
+        for(int i=0;i<nums.length;i++){
+            j=i;
+            sum=0;
+            while(j<n && ((sum+nums[j])*(j-i+1))<k){
+                ans+=1;
+                sum+=nums[j];
+                j++;
+            }
+        }
+        return ans;
+    }
+}
