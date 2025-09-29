@@ -119,3 +119,111 @@ class Solution {
         return ans;
     }
 }
+
+
+Problem 5------>Count occurance of Anagram---->
+-----------------------------------------------------
+// User function Template for Java
+
+class Solution {
+    int search(String pat, String txt) {
+        int n = txt.length(), k = pat.length();
+        if (k > n) return 0;
+
+        int freqPat[] = new int[26];
+        int freqTxt[] = new int[26];
+
+        for (char c : pat.toCharArray()) {
+            freqPat[c - 'a']++;
+        }
+        for (int i = 0; i < k; i++) {
+            freqTxt[txt.charAt(i) - 'a']++;
+        }
+
+        int ans = 0;
+        if (matches(freqPat, freqTxt)) ans++;
+
+        for (int i = k; i < n; i++) {
+            freqTxt[txt.charAt(i - k) - 'a']--; 
+            freqTxt[txt.charAt(i) - 'a']++; 
+
+            if (matches(freqPat, freqTxt)) ans++;
+        }
+        return ans;
+    }
+
+    boolean matches(int[] a, int[] b) {
+        for (int i = 0; i < 26; i++) {
+            if (a[i] != b[i]) return false;
+        }
+        return true;
+    }
+}
+
+
+Problem number 6-----> Find All Anagrams in a String(LeetCode 438)
+------------------------------------------------------------------------------>
+class Solution {
+    public boolean check(int[] arr1,int arr2[]){
+        for(int i=0;i<arr1.length;i++){
+            if(arr1[i]!=arr2[i]) return false;
+        }
+        return true;
+    }
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer>l=new ArrayList<>();
+        char sarr[]=s.toCharArray();
+        char parr[]=p.toCharArray();
+        if (p.length() > s.length()) return l;
+        int fs[]=new int[26];
+        int fp[]=new int[26];
+        for(char i:parr){
+            fp[i-'a']++;
+        }
+        int k=parr.length;
+        for(int i=0;i<k;i++){
+            fs[sarr[i]-'a']++;
+        }
+        if(check(fs,fp)) l.add(0);
+        for(int i=k;i<sarr.length;i++){
+            fs[sarr[i-k]-'a']--;
+            fs[sarr[i]-'a']++;
+            if(check(fs,fp)) l.add(i-k+1);
+        }
+        return l;
+    }
+}
+
+
+Problem number 7---------First negative in every window of size k
+--------------------------------------------------------------------------->
+
+class Solution {
+    static List<Integer> firstNegInt(int arr[], int k) {
+        // write code here
+        List<Integer>l=new ArrayList<>();
+        ArrayDeque<Integer>q=new ArrayDeque<>();
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]<0) q.add(i);
+            if(!q.isEmpty() && q.peekFirst()<=i-k){
+                q.pollFirst();
+            }
+            if(i>=k-1){
+                if(!q.isEmpty()){
+                    l.add(arr[q.peekFirst()]);
+                }
+                else{
+                    l.add(0);
+                }
+            }
+        }
+        return l;
+    }
+}
+
+
+
+
+
+
+
