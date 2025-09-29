@@ -1,0 +1,62 @@
+498. Diagonal Traverse
+solution---------------------------------------------------->
+
+class Solution {
+    public static int[] findDiagonalOrder(int[][] mat) {
+        int n=mat.length;
+        int m=mat[0].length;
+        ArrayList<ArrayDeque<Integer>>l=new ArrayList<>();
+        for(int i=0;i<m+n-1;i++){
+            l.add(new ArrayDeque<>());
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if((i+j)%2==0){
+                    l.get(i+j).addFirst(mat[i][j]);
+                }
+                else{
+                    l.get(i+j).addLast(mat[i][j]);
+                }
+            }
+        }
+        int arr[]=new int[m*n];
+        int id=0;
+        for(int i=0;i<l.size();i++){
+            ArrayDeque<Integer>q=l.get(i);
+            while(!q.isEmpty()){
+                arr[id++]=q.pollFirst();
+            }
+        }
+        return arr;
+    }
+}
+
+
+1424. Diagonal Traverse II
+
+-------------------------------------------------------------------------------->
+class Solution {
+    public int[] findDiagonalOrder(List<List<Integer>> nums) {
+        TreeMap<Integer,ArrayList<Integer>>map=new TreeMap<>();
+        int n=0;
+        for(int i=0;i<nums.size();i++){
+            n+=nums.get(i).size();
+            for(int j=0;j<nums.get(i).size();j++){
+                map.putIfAbsent(i+j,new ArrayList<>());
+                map.get(i+j).add(nums.get(i).get(j));
+            }
+        }
+        int arr[]=new int[n];
+        int id=0;
+        for(Integer key:map.keySet()){
+            ArrayList<Integer>l=map.get(key);
+            for(int i=l.size()-1;i>=0;i--){
+                arr[id++]=l.get(i);
+            }
+        }
+        return arr;
+    }
+}
+
+
+
