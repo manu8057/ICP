@@ -1,0 +1,94 @@
+Problem number 1-Longest Substring Without Repeating Characters(Leetcode 3)------------>
+-----------------------------------------------------------------------------------------------
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        char arr[]=s.toCharArray();
+        ArrayDeque<Character>q=new ArrayDeque<>();
+        int max=0;
+        boolean b=true;
+        for(int i=0;i<arr.length;i++){
+            if(q.contains(arr[i])){
+                b=false;
+                max=Math.max(max,q.size());
+                while(q.peekFirst()!=arr[i]){
+                    q.pollFirst();
+                }
+                q.pollFirst();
+            }
+            q.addLast(arr[i]);
+        }
+        if(b) return q.size();
+        return (max>q.size())?max:q.size();
+    }
+}
+
+Problem number 2-------> Permutation in String(LeetCode 567)
+---------------------------------------------------------
+class Solution {
+    public boolean check(int arr1[], int arr2[]) {
+        for (int i = 0; i < 26; i++) {
+            if (arr1[i] != arr2[i]) return false;
+        }
+        return true;
+    }
+
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+
+        int fs1[] = new int[26];
+        int fs2[] = new int[26];
+
+        for (char c : s1.toCharArray()) {
+            fs1[c - 'a']++;
+        }
+
+        int len = s1.length();
+        for (int i = 0; i < len; i++) {
+            fs2[s2.charAt(i) - 'a']++;
+        }
+
+        if (check(fs1, fs2)) return true;
+        for (int i = len; i < s2.length(); i++) {
+            fs2[s2.charAt(i) - 'a']++;              
+            fs2[s2.charAt(i - len) - 'a']--;          
+            if (check(fs1, fs2)) return true;
+        }
+        return false;
+    }
+}
+
+Problem number 3--- Find All Anagrams in a String(LeetCode 438)
+----------------------------------------------------------------------->
+class Solution {
+    public boolean check(int[] arr1,int arr2[]){
+        for(int i=0;i<arr1.length;i++){
+            if(arr1[i]!=arr2[i]) return false;
+        }
+        return true;
+    }
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer>l=new ArrayList<>();
+        char sarr[]=s.toCharArray();
+        char parr[]=p.toCharArray();
+        if (p.length() > s.length()) return l;
+        int fs[]=new int[26];
+        int fp[]=new int[26];
+        for(char i:parr){
+            fp[i-'a']++;
+        }
+        int k=parr.length;
+        for(int i=0;i<k;i++){
+            fs[sarr[i]-'a']++;
+        }
+        if(check(fs,fp)) l.add(0);
+        for(int i=k;i<sarr.length;i++){
+            fs[sarr[i-k]-'a']--;
+            fs[sarr[i]-'a']++;
+            if(check(fs,fp)) l.add(i-k+1);
+        }
+        return l;
+    }
+}
+
+Problem number 4------------------Longest Repeating Character Replacement (Leetcode 424)
+------------------------------------------------------------------------------------------------->
