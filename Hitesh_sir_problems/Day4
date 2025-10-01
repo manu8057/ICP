@@ -1,0 +1,33 @@
+problem ----Restore Ip Adress
+====================================================================>>
+class Solution {
+    public void helper(String s,int i,String str,int k,List<String>l){
+        if(i>=s.length()) return;
+        if(k==0){
+            if(s.length()-i>3) return;
+            String tem=s.substring(i,s.length());
+            int len=tem.length();
+            if(len>3) return;
+            int val=Integer.parseInt(tem);
+            int check=(int)Math.pow(10,len-1);
+            if(val>255 || (val/check<1 && val!=0)) return;
+            if(val==0 && len!=1) return;
+            str=str+tem;
+            l.add(str);
+        }
+        for(int j=i;j<(i+3) && j<s.length();j++){
+            String t=s.substring(i,j+1);
+            int len=t.length();
+            int num=Integer.parseInt(t);
+            int check=(int)Math.pow(10,len-1);
+            if(num<=255 && ((num==0 && len==1) || (num/check)>=1)){
+                helper(s,j+1,str+t+".",k-1,l);
+            }
+        }
+    }
+    public List<String> restoreIpAddresses(String s) {
+        List<String>l=new ArrayList<>();
+        helper(s,0,"",3,l);
+        return l;
+    }
+}
