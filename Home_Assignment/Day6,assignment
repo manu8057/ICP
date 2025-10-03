@@ -1,0 +1,103 @@
+Problem number 1-----Word Search (LeetCode 79)-->
+--------------------------------------------------------------------
+class Solution {
+    int i=0;
+    boolean ans=false;
+    public void fun(char[][] board,String word,int r,int c,int n,int m, boolean vis[][]){
+        if(r<0 || c<0 || r>=n || c>=m || i>=word.length() || board[r][c]!=word.charAt(i) || vis[r][c]){
+            return;
+        }
+        vis[r][c]=true;
+        i++;
+        if(i==word.length()){
+            ans=true;
+            return;
+        }
+        fun(board,word,r+1,c,n,m,vis);
+        fun(board,word,r-1,c,n,m,vis);
+        fun(board,word,r,c+1,n,m,vis);
+        fun(board,word,r,c-1,n,m,vis);
+        vis[r][c]=false;
+        i--;
+    }
+    public boolean exist(char[][] board, String word) {
+        Queue<int[]>q=new LinkedList<>();
+        int n=board.length;
+        int m=board[0].length;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==word.charAt(0)){
+                    q.add(new int[]{i,j});
+                }
+            }
+        }
+        while(!q.isEmpty()){
+            boolean vis[][]=new boolean[n][m];
+            int arr[]=q.poll();
+            int r=arr[0];
+            int c=arr[1];
+            i=0;
+            fun(board,word,r,c,n,m,vis);
+            if(ans) return true;
+        }
+        return false;
+    }
+}
+
+Problme number 2--->Combinations (LeetCode 77)---------------->
+---------------------------------------------------------------------------------->
+class Solution {
+    public void fun(int[] arr,List<List<Integer>>res,List<Integer>l,int i,int n,int k){
+        if(l.size()==k){
+            res.add(new ArrayList<>(l));
+            return;
+        }
+        for(int j=i;j<n;j++){
+            l.add(arr[j]);
+            fun(arr,res,l,j+1,n,k);
+            l.remove(l.size()-1);
+        }
+    }
+    public List<List<Integer>> combine(int n, int k) {
+        int arr[]=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=i+1;
+        }
+        List<List<Integer>>res=new ArrayList<>();
+        List<Integer>l=new ArrayList<>();
+        fun(arr,res,l,0,n,k);
+        return res;
+    }
+}
+
+
+Problem number 3--->Combination Sum II(LeetCode 40)----------------->
+------------------------------------------------------------------------------->
+class Solution {
+    public void fun(int[] arr,List<List<Integer>>res, List<Integer>l,int target,int sum,int i,int n){
+        if(sum==target){
+            res.add(new ArrayList<>(l));
+            return;
+        }
+        for(int j=i;j<n;j++){
+            if(j>i && arr[j]==arr[j-1]){
+                continue;
+            }
+            if (arr[j]+sum> target) { 
+                break;
+            }
+            l.add(arr[j]);
+            sum+=arr[j];
+            fun(arr,res,l,target,sum,j+1,n);
+            sum-=l.get(l.size()-1);
+            l.remove(l.size()-1);
+        }
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>>res=new ArrayList<>();
+        List<Integer>l=new ArrayList<>();
+        fun(candidates,res,l,target,0,0,candidates.length);
+        return res;
+    }
+}
