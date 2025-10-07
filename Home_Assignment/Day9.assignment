@@ -1,0 +1,98 @@
+Remove Duplicates from Sorted List---->(LeetCode 83)----->
+--------------------------------------------------------------->
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head==null) return head;
+        ListNode ans=new ListNode(head.val);
+        ListNode jk=ans;
+        int pre=head.val;
+        head=head.next;
+        while(head!=null){
+            if(head.val!=pre){
+                ListNode n=new ListNode(head.val);
+                jk.next=n;
+                jk=jk.next;
+                pre=head.val;
+            }
+            head=head.next;
+        }
+        return ans;
+    }
+}
+
+
+Palindrome Linked List---->LeetCode(234)----->
+-------------------------------------------------------->
+class Solution {
+    public ListNode reverse(ListNode node){
+        ListNode pre=null;
+        ListNode curr=node;
+        while(curr!=null){
+            ListNode n=curr.next;
+            curr.next=pre;
+            pre=curr;
+            curr=n;
+        }
+        return pre;
+    }
+    public boolean isPalindrome(ListNode head) {
+        ListNode s=head;
+        ListNode f=head;
+        while(f!=null && f.next!=null && f.next.next!=null){
+            s=s.next;
+            f=f.next.next;
+        }
+        ListNode node2=reverse(s.next);
+        s.next=null;
+        ListNode node1=head;
+        while(node2!=null && node1!=null){
+            if(node2.val!=node1.val){
+                return false;
+            }
+            node2=node2.next;
+            node1=node1.next;
+        }
+        return true;
+    }
+}
+
+
+
+Reorder List---------->(LeetCode 143)----->
+-------------------------------------------------->
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        ArrayList<Integer>list=new ArrayList<>();
+        ListNode tem=head;
+        while(tem!=null){
+            list.add(tem.val);
+            tem=tem.next;
+        }
+        int l=0;
+        int r=list.size()-1;
+        tem=head;
+        while(l<=r){
+           if(l==r){
+              tem.val=list.get(l);
+           }
+           else {
+             tem.val=list.get(l);
+             tem=tem.next;
+             tem.val=list.get(r);
+             tem=tem.next;
+           }
+           l++;
+           r--;
+        }
+    }
+}
